@@ -1,0 +1,13 @@
+algorithm 1
+outlev iter_verbose
+maxit 1000
+xtol 1e-6
+opttol 1e-6
+feastol 1e-6
+mip_rounding 2
+mip_heuristic 2
+mip_pseudoinit 1
+mip_method 1
+mip_branchrule 1
+mip_selectrule 2
+mip_outsub = 1
