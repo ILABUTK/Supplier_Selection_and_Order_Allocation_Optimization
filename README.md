@@ -38,8 +38,6 @@ We implement the MINLP model using `Matlab` with the `Knitro` package. Main file
   > Sample code:
 ```
 %----------------Ktrlink----------------------
-%option3 = optimoptions('ktrlink','UseParallel',true,'Display','iter','TolFun', 1e-10, 'TolX', 1e-10, 'TolCon', 1e-10, 'MaxFunEvals', 2000);
-%[x,fval,exitflag,output,lambda] = ktrlink(@(x)ObjfunSplit(x,k,h,b,N,Lambda,Lr,Lw,Or,Ow,Pw),XStart,A,[],[],[],lb,ub,@(x)ConNonl(x,SmallM,BigM));
 Knitrooptions = optimset('Algorithm', 'active-set', 'Display','iter','MaxIter',1000,'TolX',1e-6,'TolFun',1e-6,'TolCon',1e-6);
 [x,fval,exitflag,output,lambda]=knitromatlab_mip(@(x)ObjfunSplit(x,k,h,b,N,Lambda,Lr,Lw,Or,Ow,Pw,w),X0,A,bq,Aeq,beq,lb,ub,@(x)ConNonlA(x,BigM,N,Lambda,Lw),xType,'knitro.opt');
 ```
@@ -64,10 +62,10 @@ One may explore the use of different options.
 ```
 %------------------------NLP Fmincon Solvers------------------------
 %fmincon use the SQP algorithm, also with the parallel computing
-%option1 = optimoptions('fmincon','UseParallel',true,'Display','iter','Algorithm','sqp','TolFun', 1e-10, 'TolX', 1e-10, 'TolCon', 1e-10, 'MaxFunEvals', 2000);
+option1 = optimoptions('fmincon','UseParallel',true,'Display','iter','Algorithm','sqp','TolFun', 1e-10, 'TolX', 1e-10, 'TolCon', 1e-10, 'MaxFunEvals', 2000);
 %option2 = optimoptions('fmincon','UseParallel',true,'Display','iter','Algorithm','interior-point','TolFun', 1e-10, 'TolX', 1e-10, 'TolCon', 1e-10, 'MaxFunEvals', 4000);
 
-%[x,fval,exitflag,output,lambda] = fmincon(@(x)ObjfunSplit(x,k,h,b,N,Lambda,Lr,Lw,Or,Ow,Pw),XStart,A,[],Aeq,beq,lb,ub,@(x)ConNonl(x,SmallM,BigM),option1);
+[x,fval,exitflag,output,lambda] = fmincon(@(x)ObjfunSplit(x,k,h,b,N,Lambda,Lr,Lw,Or,Ow,Pw),XStart,A,[],Aeq,beq,lb,ub,@(x)ConNonl(x,SmallM,BigM),option1);
 ```
 
 For more details on the `fmincon` solver, please visit the [official web site](https://www.mathworks.com/help/optim/ug/fmincon.html).
